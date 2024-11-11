@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+    depends_on:
+      - db
+
+  db:
+    image: nouchka/sqlite3:latest
+    container_name: sqlite-container
+    volumes:
+      - ./movies.db:/app/movies.db

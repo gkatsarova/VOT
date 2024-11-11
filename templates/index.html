@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies Collection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> <!-- Път до CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>Movies</h1>
+        
+        <!-- Форма за добавяне на нов филм -->
+        <form action="/add" method="POST">
+            <input type="text" name="title" placeholder="Movie title" required>
+            <input type="text" name="genre" placeholder="Movie genre" required>
+            <input type="text" name="year" placeholder="Year" required>
+            <input type="text" name="director" placeholder="Director" required>
+            <button type="submit">Add Movie</button>
+        </form>
+
+        <h2>Movie List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Year</th>
+                    <th>Director</th>
+                    <th>Watched</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movie in movies %}
+                <tr>
+                    <td>{{ movie['title'] }}</td>
+                    <td>{{ movie['genre'] }}</td>
+                    <td>{{ movie['year'] }}</td>
+                    <td>{{ movie['director'] }}</td>
+                    <td>{{ 'Watched' if movie['watched'] else 'Not Watched' }}</td>
+                    <td>
+                        <form action="{{ url_for('toggle_watched', movie_id=movie['id']) }}" method="POST" style="display:inline;">
+                            <button type="submit">{{ 'Mark as Not Watched' if movie['watched'] else 'Mark as Watched' }}</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
